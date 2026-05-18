@@ -5,7 +5,7 @@ will commit after each step.
 - ~~init-repo~~
 - ~~set up all the docs such as devlog folder + plan~~
 - ~~Bare Streamlit app~~
-- .env + config loader
+- ~~.env + config loader~~
 - Readme (Barely will come back to this later).
 - Opeani client wrapper
 - basic Chat UI
