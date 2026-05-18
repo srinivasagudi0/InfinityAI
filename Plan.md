@@ -7,7 +7,8 @@ will commit after each step.
 - ~~Bare Streamlit app~~
 - ~~.env + config loader~~
 - ~~Readme (Barely will come back to this later).~~
-- OpenAI client wrapper
+- ~~OpenAI client wrapper~~
+- Add requirements.txt
 - basic Chat UI
 - Wire input -> LLM -> Display
 - Smoke test
