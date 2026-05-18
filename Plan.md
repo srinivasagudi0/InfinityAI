@@ -6,9 +6,8 @@ will commit after each step.
 - ~~set up all the docs such as devlog folder + plan~~
 - ~~Bare Streamlit app~~
 - ~~.env + config loader~~
-- Readme (Barely will come back to this later).
-- Opeani client wrapper
+- ~~Readme (Barely will come back to this later).~~
+- OpenAI client wrapper
 - basic Chat UI
 - Wire input -> LLM -> Display
 - Smoke test
-
