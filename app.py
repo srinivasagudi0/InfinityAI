@@ -31,5 +31,14 @@ def generate_response(prompt):
         return response.choices[0].message.content
     except Exception as e:
         st.error(f"Error generating response: {e}")
-        return None
-    
+
+# basic chat interface
+st.header("Chat with InfinityAI")
+
+user_input = st.text_input("You:", key="user_input")
+if st.button("Send", key="send_button"):
+    if user_input:
+        response = generate_response(user_input)
+        st.text_area("InfinityAI:", value=response, height=200, key="response_area")
+    else:
+        st.warning("Please enter a message to send.")

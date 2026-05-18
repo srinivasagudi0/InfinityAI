@@ -8,7 +8,7 @@ will commit after each step.
 - ~~.env + config loader~~
 - ~~Readme (Barely will come back to this later).~~
 - ~~OpenAI client wrapper~~
-- Add requirements.txt
+- ~~Add requirements.txt~~
 - basic Chat UI
 - Wire input -> LLM -> Display
 - Smoke test
