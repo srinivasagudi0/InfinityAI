@@ -12,6 +12,9 @@ will commit after each step.
 - ~~basic Chat UI~~
 - ~~Wire input -> LLM -> Display~~
 - ~~Smoke test~~
-- Redis connection + Session Store - save chat to a db so they dont dissapear after refresh or new start.
+- ~~Sqlite connection + Session Store - save chat to a db so they dont dissapear after refresh or new start.~~
 - Thread history - keep `all` the messages from the conversation
 - Sliding window truncation - Only send the last few messages to the AI (to save money on API calls); GOOD Word to know BTW.
+- Make the system organized
+- Make everything error proof
+

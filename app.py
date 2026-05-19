@@ -2,6 +2,7 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import sqlite3
 
 load_dotenv()
 
@@ -11,6 +12,39 @@ st.title("InfinityAI - Your AI Companion")
 st.caption("") #Will write a caption here later
 
 key = os.getenv("OPENAI_API_KEY")
+
+def init_db():
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS chat_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_message TEXT,
+            ai_response TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+def add_record(user_message, ai_response):
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO chat_history (user_message, ai_response) VALUES (?, ?)
+    ''', (user_message, ai_response))
+    conn.commit()
+    conn.close()
+
+def get_chat_history():
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute('SELECT user_message, ai_response, timestamp FROM chat_history ORDER BY timestamp DESC')
+    history = c.fetchall()
+    conn.close()
+    return history
 
 if not key:
     st.error("OPENAI_API_KEY is not set in the environment variables.")
@@ -39,6 +73,13 @@ user_input = st.text_input("You:", key="user_input")
 if st.button("Send", key="send_button"):
     if user_input:
         response = generate_response(user_input)
+        add_record(user_input, response)
         st.markdown(f"**InfinityAI:** {response}")
     else:
         st.warning("Please enter a message to send.")
+
+# Display chat history
+st.header("Chat History")
+for user_msg, ai_msg, timestamp in get_chat_history():
+    st.markdown(f"**You:** {user_msg}")
+    st.markdown(f"**InfinityAI:** {ai_msg} ({timestamp})")
