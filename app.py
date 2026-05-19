@@ -47,14 +47,20 @@ def get_chat_history():
     conn.close()
     return history
 
+def get_recent_chat_history(window_limit=10):
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute('SELECT user_message, ai_response, timestamp FROM chat_history ORDER BY timestamp DESC LIMIT ?', (window_limit,))
+    history = c.fetchall()
+    conn.close()
+    return history
+
 if not key:
     st.error("OPENAI_API_KEY is not set in the environment variables.")
 else:
     st.success("OPENAI_API_KEY is set successfully.")
 
 client = OpenAI()
-
-history = get_chat_history() 
 
 def generate_response(prompt, history): # for now I am sending all history, but I will implement a better way to send only relevant history later
     try:
@@ -77,7 +83,8 @@ st.header("Chat with InfinityAI")
 user_input = st.text_input("You:", key="user_input")
 if st.button("Send", key="send_button"):
     if user_input:
-        response = generate_response(user_input)
+        history = get_recent_chat_history(window_limit=10)
+        response = generate_response(user_input, history)
         add_record(user_input, response)
         st.markdown(f"**InfinityAI:** {response}")
     else:
@@ -88,3 +95,4 @@ st.header("Chat History")
 for user_msg, ai_msg, timestamp in get_chat_history():
     st.markdown(f"**You:** {user_msg}")
     st.markdown(f"**InfinityAI:** {ai_msg} ({timestamp})")
+

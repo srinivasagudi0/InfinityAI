@@ -14,7 +14,7 @@ will commit after each step.
 - ~~Smoke test~~
 - ~~Sqlite connection + Session Store - save chat to a db so they dont dissapear after refresh or new start.~~
 - ~~Thread history - send `all` the messages from the conversation to the LLM so it can understand the context of the conversation.~~
-- Sliding window truncation - Only send the last few messages to the AI (to save money on API calls); GOOD Word to know BTW.
+- ~~Sliding window truncation - Only send the last few messages to the AI (to save money on API calls); GOOD Word to know BTW.~~
 - Make the system organized
 - Make everything error proof
 
