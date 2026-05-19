@@ -2,6 +2,7 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import datetime # for time related context
 import sqlite3
 
 load_dotenv()
@@ -53,12 +54,16 @@ else:
 
 client = OpenAI()
 
-def generate_response(prompt):
+history = get_chat_history() 
+
+def generate_response(prompt, history): # for now I am sending all history, but I will implement a better way to send only relevant history later
     try:
+        time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        day = datetime.datetime.now().strftime("%A")
         response = client.chat.completions.create(
             model="gpt-3.5-turbo", # I dont want to waste my tokens on gpt-4, so I am using gpt-3.5-turbo for now
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a helpful assistant." + f" It is {day} and the current time is {time}." + " Here is the recent chat history: " + str(history)},
                 {"role": "user", "content": prompt}
             ]
         )
