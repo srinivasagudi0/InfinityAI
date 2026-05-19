@@ -20,8 +20,10 @@ if not key:
     st.error("OPENAI_API_KEY is not set in the environment variables.")
 else:
     st.success("OPENAI_API_KEY is set successfully.")
-
-init_db()
+try:
+    init_db()
+except Exception as e:
+    st.error(f"Error initializing database: {e}")
 
 # basic chat interface
 st.header("Chat with InfinityAI")
@@ -29,6 +31,7 @@ st.header("Chat with InfinityAI")
 user_input = st.text_input("You:", key="user_input")
 if st.button("Send", key="send_button"):
     if user_input:
+
         history = get_recent_chat_history(window_limit=10)
         response = generate_response(user_input, history)
         add_record(user_input, response)

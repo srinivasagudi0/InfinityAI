@@ -18,9 +18,9 @@ will commit after each step.
 - ~~Make the system organized~~
 - ~~Make everything error proof~~
 - ~~System prompt management in a file with persona, boundaries, tone, etc.~~
-- Graceful error handling and display in the UI
-- Input length guard to prevent sending too long messages to the API
+- ~~Graceful error handling and display in the UI~~
+- ~~Input length guard to prevent sending too long messages to the API~~
 - Token usage counter in session state
--  Display token usage and cost in the UI
+- Display token usage and cost in the UI
 - Hard session token limit to prevent runaway costs
 - Model fallback on Api errors (e.g. if gpt-4 is unavailable, fallback to gpt-3.5)

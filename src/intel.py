@@ -5,6 +5,11 @@ from datetime import datetime
 client = OpenAI()
 
 def generate_response(prompt, history):
+
+    if len(prompt) > 2000:
+        st.warning("Your message is too long. Please shorten it to under 2000 characters.")
+        return "Sorry, your message is too long. Please shorten it to under 2000 characters."
+
     try:
         with open("system_prompt.txt", "r") as f:
             system_prompt = f.read()
