@@ -6,10 +6,18 @@ client = OpenAI()
 
 def generate_response(prompt, history):
     try:
+        with open("system_prompt.txt", "r") as f:
+            system_prompt = f.read()
+        
+    except Exception as e:
+        st.error(f"Error loading system prompt: {e}")
+        system_prompt = "You are a helpful assistant."
+
+    try:
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         day = datetime.now().strftime("%A")
         
-        system_msg = f"You are a helpful assistant. It is {day} and the current time is {time}. Here is the recent chat history: {history}"
+        system_msg = f"{system_prompt}\nCurrent time: {time}\nCurrent day: {day}\nChat history:\n{history}"
         
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -22,4 +30,4 @@ def generate_response(prompt, history):
     except Exception as e:
         st.error(f"Error generating response: {e}")
 
-    #too organized, I like it. I wil 
+    #too organized, I like it. I will keep it this way.
