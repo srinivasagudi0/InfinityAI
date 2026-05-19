@@ -4,7 +4,10 @@ from dotenv import load_dotenv
 from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history
 from src.intel import generate_response
 
-load_dotenv()
+try:    
+    load_dotenv()
+except Exception as e:
+    pass
 
 st.set_page_config(page_title="My Streamlit App", page_icon=":sparkles:", layout="wide")
 
