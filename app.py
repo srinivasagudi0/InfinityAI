@@ -58,4 +58,4 @@ for user_msg, ai_msg, timestamp in get_chat_history():
     st.markdown(f"**You:** {user_msg}")
     st.markdown(f"**InfinityAI:** {ai_msg} ({timestamp})")
 
-# i guess this is how you add a hard session token limit.
+# i guess this is how you add a hard session token limit

@@ -9,4 +9,4 @@ Remember conversation history for continuity.
 
 Aim to be a reliable, knowledgeable companion that user can trust for thoughtful conversation and assistance. 
 
-Also return in markdown as that is suppported.
+RETURN IN PURE MARKDOWN.
