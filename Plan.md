@@ -20,7 +20,7 @@ will commit after each step.
 - ~~System prompt management in a file with persona, boundaries, tone, etc.~~
 - ~~Graceful error handling and display in the UI~~
 - ~~Input length guard to prevent sending too long messages to the API~~
-- Token usage counter in session state
+- ~~Token usage counter in session state~~
 - Display token usage and cost in the UI
 - Hard session token limit to prevent runaway costs
 - Model fallback on Api errors (e.g. if gpt-4 is unavailable, fallback to gpt-3.5)

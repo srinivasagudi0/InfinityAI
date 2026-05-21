@@ -4,7 +4,14 @@ from datetime import datetime
 
 client = OpenAI()
 
+def initialize_token_state():
+    st.session_state.setdefault("prompt_tokens", 0)
+    st.session_state.setdefault("completion_tokens", 0)
+    st.session_state.setdefault("total_tokens", 0)
+
+
 def generate_response(prompt, history):
+    initialize_token_state()
 
     if len(prompt) > 2000:
         st.warning("Your message is too long. Please shorten it to under 2000 characters.")
@@ -31,6 +38,12 @@ def generate_response(prompt, history):
                 {"role": "user", "content": prompt}
             ]
         )
+
+        if response.usage:
+            st.session_state.prompt_tokens += response.usage.prompt_tokens
+            st.session_state.completion_tokens += response.usage.completion_tokens
+            st.session_state.total_tokens += response.usage.total_tokens
+
         return response.choices[0].message.content
     except Exception as e:
         st.error(f"Error generating response: {e}")

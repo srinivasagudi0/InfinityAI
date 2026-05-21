@@ -2,7 +2,7 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history
-from src.intel import generate_response
+from src.intel import generate_response, initialize_token_state
 
 try:    
     load_dotenv()
@@ -13,6 +13,14 @@ st.set_page_config(page_title="My Streamlit App", page_icon=":sparkles:", layout
 
 st.title("InfinityAI - Your AI Companion")
 st.caption("") #Will write a caption here later
+
+initialize_token_state()
+
+with st.sidebar:
+    st.header("Token Usage")
+    st.metric("Prompt tokens", st.session_state.prompt_tokens)
+    st.metric("Completion tokens", st.session_state.completion_tokens)
+    st.metric("Total tokens", st.session_state.total_tokens)
 
 #debug feature, will remvove later
 key = os.getenv("OPENAI_API_KEY")
