@@ -30,5 +30,6 @@ will commit after each step.
 - Custom font 
 - Make everything overall look nice and modern with css
 - ~~Render assistant messages with markdown support for better formatting~~
+- Make this look like a chat app, not just ask a question and get an answer and store it in the history
 - [!!!HARD] code block styling
 - [!!!HARD] syntax highlighting for code blocks in assistant messages

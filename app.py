@@ -1,5 +1,3 @@
-st.set_page_config(page_title="InfinityAI", page_icon=":sparkles:", layout="wide")
-
 import streamlit as st
 import os
 from dotenv import load_dotenv
@@ -10,7 +8,7 @@ except Exception as e:
 from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history
 from src.intel import generate_response, initialize_token_state
 
-
+st.set_page_config(page_title="InfinityAI", page_icon=":sparkles:", layout="wide")
 
 #inject css from styles.css
 def local_css(file_name):
@@ -59,9 +57,10 @@ if st.button("Send", key="send_button"):
         if st.session_state.total_tokens >= Token_Limit:
             st.warning("Token limit reached. Please start a new session to continue chatting.")
         else:
-            response = generate_response(user_input, history)
-            add_record(user_input, response)
-            st.markdown(f"**InfinityAI:** {response}")
+            with st.spinner("Thinking..."):
+                response = generate_response(user_input, history)
+                add_record(user_input, response)
+                st.markdown(f"**InfinityAI:** {response}")
     else:
         st.warning("Please enter a message to send.")
 
