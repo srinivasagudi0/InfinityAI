@@ -23,7 +23,7 @@ will commit after each step.
 - ~~Token usage counter in session state~~
 - ~~Display token usage and cost in the UI~~
 - ~~Hard session token limit to prevent runaway costs~~
-- Create assets/style.css
+- ~~Create assets/style.css~~
 - Inject css at app startup to make it look nice
 - Customize the app background
 - Styled chat bubbles for user and AI messages
