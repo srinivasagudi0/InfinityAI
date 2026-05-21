@@ -36,12 +36,17 @@ except Exception as e:
 # basic chat interface
 st.header("Chat with InfinityAI")
 
+Token_Limit = 10000
+
 user_input = st.text_input("You:", key="user_input")
 if st.button("Send", key="send_button"):
     if user_input:
 
         history = get_recent_chat_history(window_limit=10)
-        response = generate_response(user_input, history)
+        if st.session_state.total_tokens >= Token_Limit:
+            st.warning("Token limit reached. Please start a new session to continue chatting.")
+        else:
+            response = generate_response(user_input, history)
         add_record(user_input, response)
         st.markdown(f"**InfinityAI:** {response}")
     else:
@@ -52,3 +57,5 @@ st.header("Chat History")
 for user_msg, ai_msg, timestamp in get_chat_history():
     st.markdown(f"**You:** {user_msg}")
     st.markdown(f"**InfinityAI:** {ai_msg} ({timestamp})")
+
+# i guess this is how you add a hard session token limit.
