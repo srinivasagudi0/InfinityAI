@@ -18,11 +18,13 @@ def generate_response(prompt, history):
         return "Sorry, your message is too long. Please shorten it to under 2000 characters."
 
     try:
-        with open("system_prompt.txt", "r") as f:
+        import os
+        file = os.path.join(os.path.dirname(__file__), "system_prompt.txt")
+        with open(file, "r") as f:
             system_prompt = f.read()
         
     except Exception as e:
-        st.error(f"Error loading system prompt: {e}")
+        st.warning(f"System prompt file not found. Using default prompt. Error: {e}")
         system_prompt = "You are a helpful assistant."
 
     try:
@@ -47,5 +49,6 @@ def generate_response(prompt, history):
         return response.choices[0].message.content
     except Exception as e:
         st.error(f"Error generating response: {e}")
+        return "Sorry, there was an error generating the response."
 
     #too organized, I like it. I will keep it this way.

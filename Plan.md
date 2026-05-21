@@ -24,10 +24,11 @@ will commit after each step.
 - ~~Display token usage and cost in the UI~~
 - ~~Hard session token limit to prevent runaway costs~~
 - ~~Create assets/style.css~~
-- Inject css at app startup to make it look nice
+- ~~Inject css at app startup to make it look nice~~
 - Customize the app background
 - Styled chat bubbles for user and AI messages
 - Custom font 
+- Make everything overall look nice and modern with css
 - ~~Render assistant messages with markdown support for better formatting~~
 - [!!!HARD] code block styling
 - [!!!HARD] syntax highlighting for code blocks in assistant messages

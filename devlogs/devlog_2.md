@@ -1,1 +1,3 @@
 ## Day 2 (Thursday, May 21)
+
+Today, I focused on removing dead code, adding error handling, and adding a token usage counter to the sidebar. I wrote css to style the app and injected it as the start of the app but it was still not working so I was stuck there for a while, then figured that it hapend because of syntax(obivously) and fixed it. I also added a check to make sure the css file is loading correctly.
