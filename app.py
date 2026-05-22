@@ -52,6 +52,9 @@ Token_Limit = 10000
 user_input = st.text_input("You:", key="user_input")
 if st.button("Send", key="send_button"):
     if user_input:
+        import time
+        with st.spinner("THINKING..."):
+            time.sleep(12)  
 
         history = get_recent_chat_history(window_limit=10)
         if st.session_state.total_tokens >= Token_Limit:

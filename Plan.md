@@ -25,7 +25,7 @@ will commit after each step.
 - ~~Hard session token limit to prevent runaway costs~~
 - ~~Create assets/style.css~~
 - ~~Inject css at app startup to make it look nice~~
-- Customize the app background
+- ~~Customize the app background~~
 - Styled chat bubbles for user and AI messages
 - Custom font 
 - Make everything overall look nice and modern with css

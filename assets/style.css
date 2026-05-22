@@ -121,6 +121,55 @@ p, label, span {
     color: var(--text);
 }
 
+[data-testid="stSpinner"] {
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 220px;
+    padding: 0.55rem 1.25rem;
+    background: rgba(13,20,32,0.78);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 0 18px var(--glow);
+    animation: thinking-pulse 1.4s ease-in-out infinite;
+}
+
+[data-testid="stSpinner"]::after {
+    content: "";
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0.6rem 0 0 var(--primary), 1.2rem 0 0 var(--primary);
+    animation: thinking-dots 1s ease-in-out infinite;
+}
+
+[data-testid="stSpinner"] svg {
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px var(--glow));
+}
+
+@keyframes thinking-pulse {
+    0%, 100% {
+        opacity: 0.75;
+        box-shadow: 0 0 12px var(--glow);
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 24px var(--glow);
+    }
+}
+
+@keyframes thinking-dots {
+    0%, 100% {
+        opacity: 0.25;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
 .stAlert {
     background: rgba(239,68,68,0.12);
     border: 1px solid rgba(239,68,68,0.4);
