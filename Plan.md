@@ -26,10 +26,12 @@ will commit after each step.
 - ~~Create assets/style.css~~
 - ~~Inject css at app startup to make it look nice~~
 - ~~Customize the app background~~
-- Styled chat bubbles for user and AI messages
-- Custom font 
-- Make everything overall look nice and modern with css
+- ~~Styled chat bubbles for user and AI messages~~
+- ~~Custom font~~ Markdown Backed
+- ~~Make everything overall look nice and modern with css~~
 - ~~Render assistant messages with markdown support for better formatting~~
-- Make this look like a chat app, not just ask a question and get an answer and store it in the history
-- [!!!HARD] code block styling
-- [!!!HARD] syntax highlighting for code blocks in assistant messages
+- ~~Make this look like a chat app, not just ask a question and get an answer and store it in the history~~
+- ~~~[!!!EASY] code block styling, luckily done with the help of the markdown lang~~
+- ~~[!!!HARD] syntax highlighting for code blocks in assistant messages~~
+
+# THinking about a major feature, something that stands out

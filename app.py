@@ -44,31 +44,43 @@ except Exception as e:
     st.error(f"Error initializing database: {e}")
     st.stop()
 
-# basic chat interface
-st.header("Chat with InfinityAI")
 
-Token_Limit = 10000
+## Chat interface with message display
 
-user_input = st.text_input("You:", key="user_input")
-if st.button("Send", key="send_button"):
+TOKEN_LIMIT = 10000
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+chat_container = st.container()
+
+with chat_container:
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    user_input = st.chat_input("You:") # restricted for now
+
     if user_input:
-        import time
-        with st.spinner("THINKING..."):
-            time.sleep(12)  
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        with st.chat_message("user"):
+            st.markdown(user_input)
 
-        history = get_recent_chat_history(window_limit=10)
-        if st.session_state.total_tokens >= Token_Limit:
-            st.warning("Token limit reached. Please start a new session to continue chatting.")
-        else:
-            with st.spinner("Thinking..."):
-                response = generate_response(user_input, history)
-                add_record(user_input, response)
-                st.markdown(f"**InfinityAI:** {response}")
-    else:
-        st.warning("Please enter a message to send.")
+        with st.spinner("Thinking..."):
+            if st.session_state.total_tokens > TOKEN_LIMIT:
+                response = "Sorry, the conversation has reached the maximum token limit. Please try again a few hours."
+            else:
+                response = generate_response(user_input, get_recent_chat_history(window_limit=10))
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            add_record(user_input, response)
+            with st.chat_message("assistant"):
+                st.markdown(response)
+        
+        
+    with st.expander('Chat History', expanded = False):
+        for user_msg, ai_msgg, timestamp in get_chat_history:
+            st.markdown(f"You: {user_msg}")
+            st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
 
-# Display chat history
-with st.expander("Chat History", expanded=False):
-    for user_msg, ai_msg, timestamp in get_chat_history():
-        st.markdown(f"**You:** {user_msg}")
-        st.markdown(f"**InfinityAI:** {ai_msg} ({timestamp})")
+
+# Major feature: idk
