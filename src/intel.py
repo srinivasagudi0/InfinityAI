@@ -10,7 +10,7 @@ def initialize_token_state():
     st.session_state.setdefault("total_tokens", 0)
 
 
-def generate_response(prompt, history):
+def generate_response(prompt, history, model="gpt-3.5-turbo"):
     initialize_token_state()
 
     if len(prompt) > 2000:

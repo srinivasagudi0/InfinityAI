@@ -5,7 +5,7 @@ try:
     load_dotenv()
 except Exception as e:
     pass
-from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history
+from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history, clear_chat_history
 from src.intel import generate_response, initialize_token_state
 
 st.set_page_config(page_title="InfinityAI", page_icon=":sparkles:", layout="wide")
@@ -28,11 +28,37 @@ st.caption("") #Will write a caption here later
 initialize_token_state()
 
 with st.sidebar:
+    
+    st.header("InfinityAI")
+    st.image("assets/logo.png", use_column_width=True)
+
     st.header("Token Usage")
     st.metric("Prompt tokens", st.session_state.prompt_tokens)
     st.metric("Completion tokens", st.session_state.completion_tokens)
     st.metric("Total tokens", st.session_state.total_tokens)
 
+    # dropdown so user can select the model they want to use, for now only gpt-3.5-turbo, but will add more later
+    model_options = ["gpt-3.5-turbo"] # Add your favorite models once you clone and add your own API
+
+    with st.expander("About", expanded=False):
+        st.markdown(
+            """
+            **InfinityAI** is evolving from scratch. 
+            Right now it has memory and a simple chat experience. 
+            I will make it *better* day-by-day and add major features soon.
+            """
+        )
+
+    selected_model = st.selectbox("Select Model", model_options)
+
+    # clear button
+    if st.button("CLEAR HISTORY:"):
+        clear_chat_history()
+        st.session_state.messages = []
+        st.success("Chat history cleared successfully!")
+    
+
+    
 #debug feature, will remvove later
 key = os.getenv("OPENAI_API_KEY")
 if not key:

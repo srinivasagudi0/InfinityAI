@@ -43,3 +43,13 @@ def get_recent_chat_history(window_limit=10):
     history = c.fetchall()
     c.connection.close()
     return history
+
+def clear_chat_history():
+    # wierd thougth instead of delete in the table why not os.remove the file and init_db again
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute("""
+        DELETE FROM chat_history
+    """)
+    conn.commit()
+    conn.close()

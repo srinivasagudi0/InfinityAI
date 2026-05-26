@@ -33,5 +33,29 @@ will commit after each step.
 - ~~Make this look like a chat app, not just ask a question and get an answer and store it in the history~~
 - ~~~[!!!EASY] code block styling, luckily done with the help of the markdown lang~~
 - ~~[!!!HARD] syntax highlighting for code blocks in assistant messages~~
+*Sidebar Polish*
+- App logo + name in sidebar
+- ~~Styled clear chat button~~
+- ~~Model selector dropdown~~
+- Live token + cost display (effeciently)
+- ~~Collapsable About section~~
 
 # THinking about a major feature, something that stands out
+
+## The Live Canvas (Artifacts).
+
+What it is:
+Instead of the bot just typing everything into a standard chat bubble, the screen splits in half.
+
+The left side is your normal chat conversation.
+
+The right side is a dedicated, interactive "whiteboard" or canvas.
+
+Why it's the ultimate "Wow" feature:
+It feels alive: When the bot writes code, a recipe, a script, or a webpage, that document automatically flies over to the right panel and updates in real-time.
+
+Instant interaction: The user can click buttons on the canvas to preview a website, copy the text, or download a file instantly.
+
+It fixes the scroll problem: Users don’t have to scroll up through miles of chat text to find what the bot created. The final product is always neatly organized right next to the conversation.
+
+If you build a beautiful, smooth Split-Screen Canvas, your app instantly goes from looking like a weekend hobby project to looking like a premium, professional AI tool.
