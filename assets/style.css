@@ -124,8 +124,8 @@ p, label, span {
 [data-testid="stSpinner"] {
     color: var(--primary);
     display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
+    align-items: flex-start;
+    gap: 0.5rem;
     min-width: 220px;
     padding: 0.55rem 1.25rem;
     background: rgba(13,20,32,0.78);
