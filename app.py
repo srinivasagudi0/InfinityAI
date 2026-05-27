@@ -22,6 +22,9 @@ if not os.path.exists(css_path):
 else: 
     local_css(css_path)
 
+canvas_css_path = "assets/canvas_style.css"
+if os.path.exists(canvas_css_path):
+    local_css(canvas_css_path)
 
 st.title("InfinityAI - Your AI Companion")
 st.caption("") #Will write a caption here later
@@ -104,9 +107,8 @@ with chat_container:
             st.markdown(message["content"])
 
 if canvas_container:
-    container = st.container(border=True)
-    with container:
-        with canvas_container:
+    with canvas_container:
+        with st.container(border=True):
             st.subheader("Canvas")
             st.info("Code/output preview will appear here.")
             if st.session_state.canvas_content:
@@ -140,5 +142,3 @@ with st.expander('Chat History', expanded=False):
         st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
 
 # Major feature: idk
-
-# It is good if added like a container for canvas_col inside st.container
