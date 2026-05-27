@@ -7,6 +7,7 @@ except Exception as e:
     pass
 from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history, clear_chat_history
 from src.intel import generate_response, initialize_token_state
+from assets.greetings import get_random_greeting
 
 st.set_page_config(page_title="InfinityAI", page_icon=":sparkles:", layout="wide")
 
@@ -25,12 +26,16 @@ else:
 st.title("InfinityAI - Your AI Companion")
 st.caption("") #Will write a caption here later
 
+# Display a random greeting
+    
+
+
 initialize_token_state()
 
 with st.sidebar:
     
     st.header("InfinityAI")
-    st.image("assets/logo.png", use_column_width=True)
+    st.image("assets/logo.png", width=True)
 
     st.header("Token Usage")
     st.metric("Prompt tokens", st.session_state.prompt_tokens)
@@ -52,7 +57,7 @@ with st.sidebar:
     selected_model = st.selectbox("Select Model", model_options)
 
     # clear button
-    if st.button("CLEAR HISTORY:"):
+    if st.button("CLEAR HISTORY"):
         clear_chat_history()
         st.session_state.messages = []
         st.success("Chat history cleared successfully!")
@@ -81,6 +86,8 @@ if "messages" not in st.session_state:
 chat_container = st.container()
 
 with chat_container:
+    if not st.session_state.messages:
+        st.markdown(get_random_greeting(), unsafe_allow_html=True)
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
@@ -104,7 +111,9 @@ with chat_container:
         
         
     with st.expander('Chat History', expanded = False):
-        for user_msg, ai_msgg, timestamp in get_chat_history:
+        if not get_chat_history():
+            st.markdown("Please start a coversation and it wii")
+        for user_msg, ai_msgg, timestamp in get_chat_history():
             st.markdown(f"You: {user_msg}")
             st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
 
