@@ -1,3 +1,0 @@
-Tiday was really good day! I ssttarted from scratch, creating repo to all the way to creating a simple chat with memory! I am really happy with the progress I made today, and I am excited to keep building on this foundation. I am also really happy that I was able to stick to my plan and complete all the tasks I set out to do. This gives me a lot of confidence in my ability to execute on my plans and achieve my goals. Overall, it was a great day of coding and learning!
-
-Simply, great day with a lot of progress.

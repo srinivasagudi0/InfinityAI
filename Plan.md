@@ -40,7 +40,7 @@ will commit after each step.
 - Live token + cost display (effeciently)
 - ~~Collapsable About section~~
 - ~~Add canvas_active flag to session state~~
-- colums that become actove when state is true, make it the look good as much as a streamlit browser can support
+- ~~colums that become actove when state is true, make it the look good as much as a streamlit browser can support~~
 -  Canvas placeholder that is empty and shouldopen when needed to isntead of all times
 - Css for canvas panel styling.
 

@@ -83,49 +83,60 @@ TOKEN_LIMIT = 10000
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-chat_container = st.container()
+if "canvas_active" not in st.session_state:
+    st.session_state.canvas_active = False
+
+if "canvas_content" not in st.session_state:
+    st.session_state.canvas_content = ""
+
+if st.session_state.canvas_active:
+    chat_container, canvas_container = st.columns([2, 1], gap="large")
+else:
+    chat_container = st.container()
+    canvas_container = None
 
 with chat_container:
     if not st.session_state.messages:
         st.markdown(get_random_greeting(), unsafe_allow_html=True)
+
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
+if canvas_container:
+    with canvas_container:
+        st.subheader("Canvas")
+        st.info("Code/output preview will appear here.")
+        if st.session_state.canvas_content:
+            st.markdown(st.session_state.canvas_content)
+
 user_input = st.chat_input("You:") # restricted for now
 
 if user_input:
-    if "canvas_active" not in st.session_state:
-        st.session_state.canvas_active = False
     st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.chat_message("user"):
-        st.markdown(user_input)
-    st.session_state.canvas_active = True # set canvas active to true when user sends a message, will use this flag to show the canvas in the future when I add that feature
-    if st.session_state.canvas_active:
-        # when canvas is active create two columns, one for the chat and one for the canvas
-        col1, col2 = st.columns([2, 1])
-
-        with col2:
-            st.markdown("Canvas will go here. It is currently under development, but will be a major feature that allows you to visualize and interact with your conversations in a whole new way.")
-
 
     with st.spinner("Thinking..."):
         if st.session_state.total_tokens > TOKEN_LIMIT:
-            response = "Sorry, the conversation has reached the maximum token limit. Please try again a few hours."
+            response = "Sorry, the conversation has reached the maximum token limit. Please try again in a few hours."
         else:
             response = generate_response(user_input, get_recent_chat_history(window_limit=10))
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        add_record(user_input, response)
-        with st.chat_message("assistant"):
-            st.markdown(response)
-        
-        
-    with st.expander('Chat History', expanded = False):
-        if not get_chat_history():
-            st.markdown("Please start a coversation and it will appear here.")
-        for user_msg, ai_msgg, timestamp in get_chat_history():
-            st.markdown(f"You: {user_msg}")
-            st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
 
+    st.session_state.messages.append({"role": "assistant", "content": response})
+    add_record(user_input, response)
+
+    if "```" in response:
+        st.session_state.canvas_active = True
+        st.session_state.canvas_content = response
+
+    st.rerun()
+
+with st.expander('Chat History', expanded=False):
+    if not get_chat_history():
+        st.markdown("Please start a conversation and it will appear here.")
+    for user_msg, ai_msgg, timestamp in get_chat_history():
+        st.markdown(f"You: {user_msg}")
+        st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
 
 # Major feature: idk
+
+#

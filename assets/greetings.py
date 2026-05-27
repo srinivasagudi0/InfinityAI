@@ -36,6 +36,18 @@ Greetings = [
         "headline": "New coversation, fresh start.",
         "subtext": "Try: *I need help with...*,",
         "suggestion": "Try: *I need help with...*"
+    },
+    {
+        "emoji": "🚀",
+        "headline": "Let's launch!",
+        "subtext": "I'm ready to help you achieve your goals and turn ideas into reality.",
+        "suggestion": "Try: *What steps should I take to get started?*"
+    },
+    {
+        "emoji": "🎯",
+        "headline": "Focus mode: ON.",
+        "subtext": "Let's get things done with clarity and purpose.",
+        "suggestion": "Try: *Help me prioritize my tasks for today.*"
     }
 ]
 
