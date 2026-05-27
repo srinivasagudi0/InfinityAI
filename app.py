@@ -104,11 +104,13 @@ with chat_container:
             st.markdown(message["content"])
 
 if canvas_container:
-    with canvas_container:
-        st.subheader("Canvas")
-        st.info("Code/output preview will appear here.")
-        if st.session_state.canvas_content:
-            st.markdown(st.session_state.canvas_content)
+    container = st.container(border=True)
+    with container:
+        with canvas_container:
+            st.subheader("Canvas")
+            st.info("Code/output preview will appear here.")
+            if st.session_state.canvas_content:
+                st.markdown(st.session_state.canvas_content)
 
 user_input = st.chat_input("You:") # restricted for now
 
@@ -139,4 +141,4 @@ with st.expander('Chat History', expanded=False):
 
 # Major feature: idk
 
-#
+# It is good if added like a container for canvas_col inside st.container

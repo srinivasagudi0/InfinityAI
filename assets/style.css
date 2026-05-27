@@ -9,6 +9,7 @@
     --text: #E6F7FF;
     --muted: #8DA2B5;
     --border: rgba(0,229,255,0.22);
+    --container: rgba(203, 208, 218, 0.78);
     --glow: rgba(62, 172, 184, 0.35);
 
     --danger: #EF4444;
@@ -35,6 +36,9 @@
 [data-testid="block-container"] {
     padding-top: 2rem;
     max-width: 1100px;
+    /*I want to make it have border*/
+    border: 20px solid var(--container);
+    border-color: var(--border) var(--container) var(--container) var(--border);
 }
 
 h1, h2, h3 {
