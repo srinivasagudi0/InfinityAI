@@ -39,6 +39,11 @@ will commit after each step.
 - ~~Model selector dropdown~~
 - Live token + cost display (effeciently)
 - ~~Collapsable About section~~
+- ~~Add canvas_active flag to session state~~
+- colums that become actove when state is true, make it the look good as much as a streamlit browser can support
+-  Canvas placeholder that is empty and shouldopen when needed to isntead of all times
+- Css for canvas panel styling.
+
 
 # THinking about a major feature, something that stands out
 

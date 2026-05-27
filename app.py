@@ -92,27 +92,37 @@ with chat_container:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    user_input = st.chat_input("You:") # restricted for now
+user_input = st.chat_input("You:") # restricted for now
 
-    if user_input:
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        with st.chat_message("user"):
-            st.markdown(user_input)
+if user_input:
+    if "canvas_active" not in st.session_state:
+        st.session_state.canvas_active = False
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    with st.chat_message("user"):
+        st.markdown(user_input)
+    st.session_state.canvas_active = True # set canvas active to true when user sends a message, will use this flag to show the canvas in the future when I add that feature
+    if st.session_state.canvas_active:
+        # when canvas is active create two columns, one for the chat and one for the canvas
+        col1, col2 = st.columns([2, 1])
 
-        with st.spinner("Thinking..."):
-            if st.session_state.total_tokens > TOKEN_LIMIT:
-                response = "Sorry, the conversation has reached the maximum token limit. Please try again a few hours."
-            else:
-                response = generate_response(user_input, get_recent_chat_history(window_limit=10))
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            add_record(user_input, response)
-            with st.chat_message("assistant"):
-                st.markdown(response)
+        with col2:
+            st.markdown("Canvas will go here. It is currently under development, but will be a major feature that allows you to visualize and interact with your conversations in a whole new way.")
+
+
+    with st.spinner("Thinking..."):
+        if st.session_state.total_tokens > TOKEN_LIMIT:
+            response = "Sorry, the conversation has reached the maximum token limit. Please try again a few hours."
+        else:
+            response = generate_response(user_input, get_recent_chat_history(window_limit=10))
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        add_record(user_input, response)
+        with st.chat_message("assistant"):
+            st.markdown(response)
         
         
     with st.expander('Chat History', expanded = False):
         if not get_chat_history():
-            st.markdown("Please start a coversation and it wii")
+            st.markdown("Please start a coversation and it will appear here.")
         for user_msg, ai_msgg, timestamp in get_chat_history():
             st.markdown(f"You: {user_msg}")
             st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
