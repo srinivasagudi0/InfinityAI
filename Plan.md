@@ -42,8 +42,13 @@ will commit after each step.
 - ~~Add canvas_active flag to session state~~
 - ~~colums that become actove when state is true, make it the look good as much as a streamlit browser can support~~
 -  ~~Canvas placeholder that is empty and shouldopen when needed to isntead of all times~~
-- Css for canvas panel styling.
-
+- ~~Css for canvas panel styling.~~
+- Create canvas_detector.py detect(reply) returns type: code | html | markdown | none
+- Code block detection (Regex for fenced ``` blocks — picks the longest one)
+- HTML block detection
+- Markdown document detection
+- More detection of evrythinglse 
+- Removes artifact from chat bubble 
 
 # THinking about a major feature, something that stands out
 

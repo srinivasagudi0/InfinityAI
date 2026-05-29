@@ -1,10 +1,13 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
+import streamlit.components.v1 as components
+from src.canvas_detector import detect_canvas
 try:    
     load_dotenv()
 except Exception as e:
     pass
+import json
 from src.app_db import init_db, add_record, get_chat_history, get_recent_chat_history, clear_chat_history
 from src.intel import generate_response, initialize_token_state
 from assets.greetings import get_random_greeting
@@ -22,7 +25,7 @@ if not os.path.exists(css_path):
 else: 
     local_css(css_path)
 
-canvas_css_path = "assets/canvas_style.css"
+canvas_css_path = "assets/canvas.css"
 if os.path.exists(canvas_css_path):
     local_css(canvas_css_path)
 
@@ -79,12 +82,47 @@ except Exception as e:
     st.stop()
 
 
+def render_canvas():
+    with st.container(border=True):
+        st.subheader(st.session_state.canvas_title)
+        st.caption(st.session_state.canvas_kind)
+        
+        content = st.session_state.canvas_content
+        lang = st.session_state.canvas_lang
+
+        col1, col2 = st.columns (2)
+
+        with col1:
+            st.download_button(
+                "Download",
+                data = content, # 
+                file_name = f"{st.session_state.canvas_title}.{lang}",
+                #name = f"{st.session_state.canvas_title.replace (' ', '_').lower()}.txt",    Fix this later, for now I will move forward
+                mime = "text/plain"
+            )
+        with col2:
+            copy_html = f"""
+            <button onclick="navigator.clipboard.writeText({json.dumps(content)})">
+                Copy 
+            </button>
+            """
+            components.html(copy_html, height=40)
+
+        if lang == "html":
+            components.html(content, height=420, scrolling=True)
+        elif lang in ["python", "javascript", "java", "c++", "c#", "ruby", "go"]:
+            st.code(content, language=lang)
+        else:
+            st.markdown(f"{content}")
 ## Chat interface with message display
 
 TOKEN_LIMIT = 10000
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+    st.session_state.setdefault("canvas_title", "Canvas")
+    st.session_state.setdefault("canvas_lang", "markdown")
+    st.session_state.setdefault("canvas_kind", "document")
 
 if "canvas_active" not in st.session_state:
     st.session_state.canvas_active = False
@@ -106,13 +144,10 @@ with chat_container:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-if canvas_container:
+if canvas_container: 
     with canvas_container:
-        with st.container(border=True):
-            st.subheader("Canvas")
-            st.info("Code/output preview will appear here.")
-            if st.session_state.canvas_content:
-                st.markdown(st.session_state.canvas_content)
+        render_canvas()
+
 
 user_input = st.chat_input("You:") # restricted for now
 
@@ -128,9 +163,13 @@ if user_input:
     st.session_state.messages.append({"role": "assistant", "content": response})
     add_record(user_input, response)
 
-    if "```" in response:
-        st.session_state.canvas_active = True
-        st.session_state.canvas_content = response
+    articfact = detect_canvas(response)
+
+    st.session_state.canvas_active = True
+    st.session_state.canvas_title = articfact["title"]
+    st.session_state.canvas_lang = articfact["lang"]
+    st.session_state.canvas_kind = articfact["kind"]
+    st.session_state.canvas_content = articfact["content"]
 
     st.rerun()
 
