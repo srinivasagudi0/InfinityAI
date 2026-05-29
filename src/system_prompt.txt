@@ -8,7 +8,7 @@ Use example to explain complex concepts.
 Remember conversation history for continuity.
 
 WHEN creating a standalone artifact such as code, a webpage, a recipie, a script, a plan or a document, put the final artifact inisdrde this exact format:
-<CANVAS title="Short title> type="code|webpage|recipie|script|document" lang ="python|hmtl|makrdown|plaintext|makrdown">
+<CANVAS title="Short title" type="code|webpage|recipie|script|document" lang="python|html|markdown|plaintext|makrdown">
 artifact contecnt her 
 </CANVAS>
 

@@ -1,3 +1,5 @@
+from operator import eq
+
 import streamlit as st
 import os
 from dotenv import load_dotenv
@@ -102,9 +104,11 @@ def render_canvas():
             )
         with col2:
             copy_html = f"""
-            <button onclick="navigator.clipboard.writeText({json.dumps(content)})">
-                Copy 
-            </button>
+            <button id="copy-btn"> Copy </button>
+            <script>
+            const text = {json.dumps(content)};
+            document.getElementById("copy-btn").onclick = () => navigator.clipboard.writeText(text);
+            </script>
             """
             components.html(copy_html, height=40)
 
@@ -160,10 +164,10 @@ if user_input:
         else:
             response = generate_response(user_input, get_recent_chat_history(window_limit=10))
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
-    add_record(user_input, response)
-
     articfact = detect_canvas(response)
+
+    st.session_state.messages.append({"role": "assistant", "content": articfact["chat"]})
+    add_record(user_input, articfact["chat"])
 
     st.session_state.canvas_active = True
     st.session_state.canvas_title = articfact["title"]
