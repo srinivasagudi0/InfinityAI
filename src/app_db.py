@@ -53,3 +53,10 @@ def clear_chat_history():
     """)
     conn.commit()
     conn.close()
+
+def delete_chat_history():
+    # better ways to do it but this is fine for all time
+    import os
+    if os.path.exists('chat_history.db'):
+        os.remove('chat_history.db')
+    init_db()

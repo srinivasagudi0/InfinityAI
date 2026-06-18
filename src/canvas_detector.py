@@ -40,10 +40,11 @@ def detect_canvas(text):
 
     if code_match:
         lang = code_match.group("lang") or "plaintext"
+        chat_text = (text[:code_match.start()] + text[code_match.end():]).strip()
 
         return {
             "active": True,
-            "chat": text,
+            "chat": chat_text or "I created it in the canvas.",
             "title": f"{lang.title()} Code",
             "kind": "code",
             "lang": lang,

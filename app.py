@@ -96,15 +96,15 @@ def render_canvas():
 
         with col1:
             st.download_button(
-                "Download",
-                data = content, # 
-                file_name = f"{st.session_state.canvas_title}.{lang}",
+                "Download ↓",
+                data = content,
+                file_name = canvas_file_name(st.session_state.canvas_title, lang),
                 #name = f"{st.session_state.canvas_title.replace (' ', '_').lower()}.txt",    Fix this later, for now I will move forward
                 mime = "text/plain"
             )
         with col2:
             copy_html = f"""
-            <button id="copy-btn"> Copy </button>
+            <button id="copy-btn"> Copy ⎘ </button>
             <script>
             const text = {json.dumps(content)};
             document.getElementById("copy-btn").onclick = () => navigator.clipboard.writeText(text);
@@ -118,6 +118,20 @@ def render_canvas():
             st.code(content, language=lang)
         else:
             st.markdown(f"{content}")
+
+
+def canvas_file_name(title, lang):
+    safe_title = "".join(c.lower() if c.isalnum() else "_" for c in title).strip("_") or "canvas"
+    extensions = {
+        "python": "py",
+        "javascript": "js",
+        "html": "html",
+        "markdown": "md",
+        "plaintext": "txt",
+        "c++": "cpp",
+        "c#": "cs",
+    }
+    return f"{safe_title}.{extensions.get(lang, 'txt')}"
 ## Chat interface with message display
 
 TOKEN_LIMIT = 10000
@@ -164,22 +178,26 @@ if user_input:
         else:
             response = generate_response(user_input, get_recent_chat_history(window_limit=10))
 
-    articfact = detect_canvas(response)
+    artifact = detect_canvas(response)
 
-    st.session_state.messages.append({"role": "assistant", "content": articfact["chat"]})
-    add_record(user_input, articfact["chat"])
+    st.session_state.messages.append({"role": "assistant", "content": artifact["chat"]})
+    add_record(user_input, artifact["chat"])
 
-    st.session_state.canvas_active = True
-    st.session_state.canvas_title = articfact["title"]
-    st.session_state.canvas_lang = articfact["lang"]
-    st.session_state.canvas_kind = articfact["kind"]
-    st.session_state.canvas_content = articfact["content"]
+    st.session_state.canvas_active = artifact["active"]
+    st.session_state.canvas_title = artifact["title"] or "Canvas"
+    st.session_state.canvas_lang = artifact["lang"] or "markdown"
+    st.session_state.canvas_kind = artifact["kind"] or "document"
+    st.session_state.canvas_content = artifact["content"]
 
     st.rerun()
 
 with st.expander('Chat History', expanded=False):
     if not get_chat_history():
         st.markdown("Please start a conversation and it will appear here.")
+    else:
+        if st.button("Clear History", key="clear_history_expander"):
+            clear_chat_history()
+            st.success("Chat history cleared successfully!")
     for user_msg, ai_msgg, timestamp in get_chat_history():
         st.markdown(f"You: {user_msg}")
         st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
