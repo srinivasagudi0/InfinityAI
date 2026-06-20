@@ -9,12 +9,24 @@ def init_db():
             user_message TEXT,
             ai_response TEXT,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
+        );
     ''')
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS canvas_history (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              title TEXT NOT NULL,
+              kind TEXT NOT NULL,
+              lang TEXT NOT NULL,
+              content TEXT NOT NULL,
+              user_prompt TEXT,
+              assistant_msg TEXT,
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+              )
+    """)
     conn.commit()
     conn.close()
 
-def add_record(user_message, ai_response):  
+def add_record(user_message, ai_response):
     conn = sqlite3.connect('chat_history.db')
     c = conn.cursor()
     c.execute(
@@ -60,3 +72,24 @@ def delete_chat_history():
     if os.path.exists('chat_history.db'):
         os.remove('chat_history.db')
     init_db()
+
+def add_artifacts(title,kind, lang, content, user_prompt, assistant_msg):
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+
+    c.execute("""
+                INSERT INTO canvas_history (title, kind, lang, content, user_prompt, assistant_msg, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+              """, (title, kind, lang, content, user_prompt, assistant_msg))
+    conn.commit()
+    conn.close()
+
+def get_artifacts():
+    c = sqlite3.connect('chat_history.db').cursor()
+    c.execute(""" SELECT title, kind, lang, content, user_prompt, assistant_msg, created_at
+            FROM canvas_history ORDER BY created_at DESC
+              """)
+    history = c.fetchall()
+    c.connection.close()
+    return history
+

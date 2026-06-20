@@ -201,3 +201,4 @@ with st.expander('Chat History', expanded=False):
     for user_msg, ai_msgg, timestamp in get_chat_history():
         st.markdown(f"You: {user_msg}")
         st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
+
