@@ -18,8 +18,6 @@ def init_db():
               kind TEXT NOT NULL,
               lang TEXT NOT NULL,
               content TEXT NOT NULL,
-              user_prompt TEXT,
-              assistant_msg TEXT,
               created_at DATETIME DEFAULT CURRENT_TIMESTAMP
               )
     """)
@@ -73,20 +71,20 @@ def delete_chat_history():
         os.remove('chat_history.db')
     init_db()
 
-def add_artifacts(title,kind, lang, content, user_prompt, assistant_msg):
+def add_artifacts(title,kind, lang, content):
     conn = sqlite3.connect('chat_history.db')
     c = conn.cursor()
 
     c.execute("""
-                INSERT INTO canvas_history (title, kind, lang, content, user_prompt, assistant_msg, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-              """, (title, kind, lang, content, user_prompt, assistant_msg))
+                INSERT INTO canvas_history (title, kind, lang, content, created_at)
+                VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+              """, (title, kind, lang, content))
     conn.commit()
     conn.close()
 
 def get_artifacts():
     c = sqlite3.connect('chat_history.db').cursor()
-    c.execute(""" SELECT title, kind, lang, content, user_prompt, assistant_msg, created_at
+    c.execute(""" SELECT title, kind, lang, content, created_at
             FROM canvas_history ORDER BY created_at DESC
               """)
     history = c.fetchall()
@@ -97,7 +95,7 @@ def get_artifact_by_id(id):
     conn = sqlite3.connect('chat_history.db')
     c = conn.cursor()
     c.execute("""
-            SELECT title, kind, lang, content, user_prompt, assistant_msg, created_at
+            SELECT title, kind, lang, content, created_at
             FROM canvas_history WHERE id = ?""", (id,))
     
     artifact = c.fetchone()

@@ -31,6 +31,7 @@ def detect_canvas(text):
             "lang": attrs.get("lang", "markdown"),
             "content": match.group("content").strip(),
         }
+    
 
     code_match = re.search(
         r"```(?P<lang>[a-zA-Z0-9_+-]*)\s*\n(?P<content>.*?)```",
