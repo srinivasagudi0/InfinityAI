@@ -93,3 +93,32 @@ def get_artifacts():
     c.connection.close()
     return history
 
+def get_artifact_by_id(id):
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute("""
+            SELECT title, kind, lang, content, user_prompt, assistant_msg, created_at
+            FROM canvas_history WHERE id = ?""", (id,))
+    
+    artifact = c.fetchone()
+    conn.commit()
+    conn.close()
+    return artifact
+
+def delete_artifact_by_id(id):
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute("""
+            DELETE FROM canvas_history WHERE id = ?""", (id,))
+    conn.commit()
+    conn.close()
+
+def clear_artifacts():
+    conn = sqlite3.connect('chat_history.db')
+    c = conn.cursor()
+    c.execute("""
+        DELETE FROM canvas_history
+    """)
+    conn.commit()
+    conn.close()
+
