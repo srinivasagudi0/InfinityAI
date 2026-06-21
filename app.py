@@ -10,7 +10,7 @@ try:
 except Exception as e:
     pass
 import json
-from src.app_db import get_artifacts, init_db, add_record, get_chat_history, get_recent_chat_history, clear_chat_history, add_artifacts
+from src.app_db import get_artifacts, init_db, add_record, get_chat_history, get_recent_chat_history, clear_chat_history, add_artifacts, clear_artifacts
 from src.intel import generate_response, initialize_token_state
 from assets.greetings import get_random_greeting
 
@@ -53,6 +53,8 @@ with st.sidebar:
     # dropdown so user can select the model they want to use, for now only gpt-3.5-turbo, but will add more later
     model_options = ["gpt-3.5-turbo"] # Add your favorite models once you clone and add your own API
     mode_options = ["chat", "history"] 
+    selected_mode = st.selectbox("Select Mode", mode_options)
+
 
     with st.expander("About", expanded=False):
         st.markdown(
@@ -64,14 +66,18 @@ with st.sidebar:
         )
 
     selected_model = st.selectbox("Select Model", model_options)
-    selected_mode = st.selectbox("Select Mode", mode_options)
-
+    
 
     # clear button
     if st.button("CLEAR HISTORY"):
         clear_chat_history()
         st.session_state.messages = []
         st.success("Chat history cleared successfully!")
+
+    if st.button("CLEAR ARTIFACTS"):
+        clear_artifacts()
+        st.success("Artifacts History cleared")
+
     
 #debug feature, will remvove later
 key = os.getenv("OPENAI_API_KEY")
@@ -208,12 +214,15 @@ elif selected_mode == "history":
             if st.button("Clear History", key="clear_history_expander"):
                 clear_chat_history()
                 st.success("Chat history cleared successfully!")
-        for user_msg, ai_msgg, timestamp in get_chat_history():
-            st.markdown(f"You: {user_msg}")
-            st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
-            st.markdown("---")
+        for a in get_chat_history():
+             container = st.container(border=True)
+             with container:
+                for user_msg, ai_msgg, timestamp in get_chat_history():
+                    st.markdown(f"You: {user_msg}")
+                    st.markdown(f"InfinityAI: {ai_msgg} {timestamp}")
+                    #st.markdown("---")
 
-    st.markdown("---")
+
 
     st.header("Artifacts")
 
@@ -223,6 +232,11 @@ elif selected_mode == "history":
         if not artifacts:
             st.markdown("No artifacts created yet. Start a conversation that generates a canvas or code block to see it here.")
         else:
+
+            if st.button("Clear Artifacts", key="clear_artifacts_expander"):
+                clear_artifacts()
+                st.success("Artifacts history cleared successfully!")
+
             for a in artifacts:
                 container = st.container(border=True)
                 with container:

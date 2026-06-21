@@ -90,7 +90,7 @@ def get_artifacts():
     history = c.fetchall()
     c.connection.close()
     return history
-
+'''
 def get_artifact_by_id(id):
     conn = sqlite3.connect('chat_history.db')
     c = conn.cursor()
@@ -110,6 +110,9 @@ def delete_artifact_by_id(id):
             DELETE FROM canvas_history WHERE id = ?""", (id,))
     conn.commit()
     conn.close()
+
+     DONT THINK I WILL NEED THESE.
+'''
 
 def clear_artifacts():
     conn = sqlite3.connect('chat_history.db')
