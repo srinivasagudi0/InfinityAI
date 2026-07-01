@@ -4,7 +4,7 @@ An AI-powered artifact workspace for creating, saving, previewing, and reopening
 
 ## Try-it-out
 
-- [Try InfinityAI](https://infinityai.app)
+- [Try InfinityAI](https://infinityai-app.onrender.com) in render
 
 ![alt text](image.png)
 
