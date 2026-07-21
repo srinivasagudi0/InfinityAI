@@ -4,7 +4,7 @@ An AI-powered artifact workspace for creating, saving, previewing, and reopening
 
 ## Try-it-out
 
-- [Try InfinityAI](https://infinityai-app.onrender.com) in render
+- [Try InfinityAI](https://infinityai-app.onrender.com) 
 
 ![alt text](image.png)
 
@@ -31,7 +31,7 @@ The problem with chatGPT's canvas is that it doesn't have a history feature, so 
 
 ## AI USAGE
 
-I used AI to structure the CSS and write the system prompt.
+I used AI to structure the CSS and write the system prompt. I also used it understand and solve an error that is got this project rejected twice.
 
 ## History
 ![alt text](image-1.png)
